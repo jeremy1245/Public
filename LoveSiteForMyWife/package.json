@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alles Gute zum 17. Geburtstag Yalda! ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 25%, #ffd4e5 50%, #ffc2d9 75%, #ffb3d0 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .start-screen.hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        .start-title {
+            font-size: 3.5em;
+            color: #d6336c;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .start-subtitle {
+            font-size: 1.5em;
+            color: #e91e63;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease 0.3s backwards;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* Heart Button */
+        .heart-button {
+            position: relative;
+            width: 200px;
+            height: 180px;
+            cursor: pointer;
+            animation: pulse 2s ease infinite, fadeInUp 1s ease 0.6s backwards;
+            transition: transform 0.3s ease;
+        }
+
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+
+        .heart-button:active {
+            transform: scale(0.95);
+        }
+
+        .heart-shape {
+            position: absolute;
+            width: 200px;
+            height: 180px;
+        }
+
+        .heart-shape:before,
+        .heart-shape:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 160px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #d6336c 100%);
+            border-radius: 100px 100px 0 0;
+            box-shadow: 0 10px 30px rgba(214, 51, 108, 0.4);
+        }
+
+        .heart-shape:before {
+            left: 100px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-shape:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Hearts Animation */
+        .floating-heart {
+            position: fixed;
+            font-size: 30px;
+            animation: float 4s ease-in infinite;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1999;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease 0.5s;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd4e5 50%, #ffb3d0 100%);
+            color: #d6336c;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.3s backwards;
+            color: #e91e63;
+        }
+
+        .heart {
+            font-size: 3em;
+            color: #ff6b9d;
+            animation: heartbeat 1.5s ease infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 100%);
+        }
+
+        .gallery h2, .videos h2, .timeline h2, .message h2 {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #d6336c;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ffe4f0 0%, #ffd4e5 100%);
+        }
+
+        .photo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(214, 51, 108, 0.9), transparent);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        .upload-area {
+            border: 3px dashed #ff6b9d;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-area:hover {
+            background: #fff5f9;
+            border-color: #d6336c;
+            transform: scale(1.02);
+        }
+
+        .upload-area input {
+            display: none;
+        }
+
+        /* Videos Section */
+        .videos {
+            background: white;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .video-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+            background: #ffe4f0;
+        }
+
+        .video-item video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe8f2 100%);
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.2);
+            position: relative;
+            animation: fadeInUp 0.6s ease;
+            border-left: 5px solid #ff6b9d;
+        }
+
+        .timeline-date {
+            color: #d6336c;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Message Section */
+        .message {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd4e5 100%);
+        }
+
+        .message-box {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            max-width: 700px;
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+            text-align: center;
+            border: 3px solid #ffb3d0;
+        }
+
+        .message-box p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            font-style: italic;
+            color: #d6336c;
+            font-size: 1.5em;
+            margin-top: 30px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #d6336c 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(214, 51, 108, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(214, 51, 108, 0.5);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            background: rgba(255,107,157,0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .start-title {
+                font-size: 2.5em;
+            }
+            .start-subtitle {
+                font-size: 1.2em;
+            }
+            .heart-button {
+                width: 150px;
+                height: 135px;
+            }
+            .heart-shape {
+                width: 150px;
+                height: 135px;
+            }
+            .heart-shape:before,
+            .heart-shape:after {
+                width: 75px;
+                height: 120px;
+            }
+            .heart-shape:before {
+                left: 75px;
+            }
+            .heart-text {
+                font-size: 1.2em;
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1.2em;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Start Screen -->
+    <div class="start-screen" id="startScreen">
+        <h1 class="start-title">Alles Gute zum Geburtstag! 🎂</h1>
+        <p class="start-subtitle">Für meine wundervolle Frau ✨</p>
+        <div class="heart-button" onclick="startExperience()">
+            <div class="heart-shape"></div>
+            <div class="heart-text">I LOVE YOU</div>
+        </div>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="love-songs.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Hero Section -->
+        <section class="section hero">
+            <div>
+                <h1>Alles Gute zum 17. Geburtstag!</h1>
+                <p>Für meine wundervolle Frau <span class="heart">❤️</span></p>
+                <p style="font-size: 1.1em; margin-top: 20px;">Diese Seite ist gefüllt mit unseren schönsten Momenten zusammen</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section gallery">
+            <h2>Unsere Momente 📸</h2>
+            <div class="photo-grid" id="photoGrid">
+                <div class="photo-item upload-area" onclick="document.getElementById('photoUpload').click()">
+                    <input type="file" id="photoUpload" accept="image/*" multiple onchange="handlePhotoUpload(event)">
+                    <div style="font-size: 3em; color: #ff6b9d;">📷</div>
+                    <p style="color: #d6336c; margin-top: 10px; font-size: 1.1em;">Klicke hier um Fotos hinzuzufügen</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Videos Section -->
+        <section class="section videos">
+            <h2>Unsere Videos 🎬</h2>
+            <div class="video-grid" id="videoGrid">
+                <div class="photo-item upload-area" onclick="document.getElementById('videoUpload').click()">
+                    <input type="file" id="videoUpload" accept="video/*" multiple onchange="handleVideoUpload(event)">
+                    <div style="font-size: 3em; color: #ff6b9d;">🎥</div>
+                    <p style="color: #d6336c; margin-top: 10px; font-size: 1.1em;">Klicke hier um Videos hinzuzufügen</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="section timeline">
+            <h2>Unsere Geschichte 💫</h2>
+            <div class="timeline-container" id="timelineContainer">
+                <div class="timeline-item">
+                    <div class="timeline-date">📅 [27.01.2023]</div>
+                    <div class="timeline-text">
+                        [Das Erste Tiktok was du dort siehst ist einer meiner lieblings Videos von uns hihi<3]
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">📅 [06.07.2023]</div>
+                    <div class="timeline-text">
+                        [Ich weiß noch als du meintest das video muntert dich auf wenn du schlecht gelaunt bist wenn ich daran denke muss ich heulen]
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">📅 [05.11.2025]</div>
+                    <div class="timeline-text">
+                        [Jetzt sind wir hier und feiern deinen 17ten Geburtstag ich bin so stolz auf dich schatz]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Message Section -->
+        <section class="section message">
+            <h2>Meine Nachricht an dich 💌</h2>
+            <div class="message-box">
+                <p>
+                    Liebe [Yalda],
+                </p>
+                <p>
+                    [Hey Baby ich hoffe dir gefällt was ich dir gemacht habe ich liebe dich so sehr schatz wir sind jetzt fast
+					4 jahre zusammen mein engel und jedes einzelne Jahr das ich mit dir verbringe sehe ich wie du Älter wirst du bist jetzt einfach schon 17
+					und nächstes jahr einfach schon 18 jeder einzelne Moment mit dir war das schönste was mir je in meinem Leben passiert ist Ich liebe dich mein engel]
+                </p>
+                <p>
+                    Ich bin so dankbar für jeden Moment mit dir und freue mich auf alles, was noch kommt.
+                </p>
+                <p class="signature">
+                    Alles Liebe zu deinem 17. Geburtstag mein Schatz! ❤️
+                </p>
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                    Von [Jelemy]
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Image Preview -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <span class="modal-close">&times;</span>
+        <img id="modalImage" src="" alt="Full size">
+    </div>
+
+    <script>
+        // Start Experience
+        function startExperience() {
+            const startScreen = document.getElementById('startScreen');
+            const mainContent = document.getElementById('mainContent');
+            const music = document.getElementById('backgroundMusic');
+            
+            // Play music
+            music.play().catch(error => {
+                console.log('Autoplay wurde blockiert:', error);
+            });
+            
+            // Create floating hearts
+            for (let i = 0; i < 15; i++) {
+                createFloatingHeart();
+            }
+            
+            // Hide start screen and show main content
+            setTimeout(() => {
+                startScreen.classList.add('hidden');
+                mainContent.classList.add('visible');
+            }, 500);
+        }
+
+        // Create Floating Hearts
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Photo Upload Handler
+        function handlePhotoUpload(e) {
+            const files = e.target.files;
+            const grid = document.getElementById('photoGrid');
+            
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const photoItem = document.createElement('div');
+                    photoItem.className = 'photo-item';
+                    photoItem.innerHTML = `
+                        <img src="${event.target.result}" alt="Memory">
+                        <div class="photo-caption">
+                            [Füge hier eine Beschreibung hinzu]
+                        </div>
+                    `;
+                    photoItem.onclick = () => openModal(event.target.result);
+                    grid.insertBefore(photoItem, grid.firstChild);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Video Upload Handler
+        function handleVideoUpload(e) {
+            const files = e.target.files;
+            const grid = document.getElementById('videoGrid');
+            
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.innerHTML = `
+                        <video controls>
+                            <source src="${event.target.result}" type="${file.type}">
+                            Dein Browser unterstützt dieses Video nicht.
+                        </video>
+                    `;
+                    grid.insertBefore(videoItem, grid.firstChild);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Modal Functions
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.add('active');
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
